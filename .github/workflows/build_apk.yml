@@ -27,14 +27,20 @@ jobs:
       - name: Install Flet & Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install flet requests
+          pip install flet requests buildozer
 
       - name: Build APK
         run: |
           yes | flet build apk
 
+      - name: Find and Move APK
+        run: |
+          mkdir -p final_apk
+          find . -name "*.apk" -exec cp {} final_apk/ \;
+          ls -la final_apk/
+
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: FinanceTracker-APK
-          path: build/apk/*.apk
+          name: yolyoldas-apk
+          path: final_apk/*.apk
